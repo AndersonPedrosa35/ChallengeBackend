@@ -11,31 +11,22 @@ const validateBody = ({ name, email, phone }) => {
     return { statusCode: 400, message: 'Invalid phone number' };
   }
   return true;
-  // {
-//   id: 1,
-//   name: 'Jane Smith',
-//   email: 'jane.smith@any.com',
-//   self: 'https://img.ibxk.com.br/2019/02/17/17124052466014.jpg?ims=328x',
-//   hours: '13:40 PM',
-//   phone: '123-456-7890',
-//   message: 'Hey! I want to place my package'
-// }
 }
 
-export function getLeads(token) {
-  if (token !== '1234567') {
-    return { statusCode: 401, message: 'Unauthorized' };
-  } else {
-    return leadsModel.getLeads();
-  }
+export function getLeads() {
+  return leadsModel.getLeads();
 }
 
-export function createLead(lead, token) {
+export function createLead(lead) {
   const isValid = validateBody(lead);
-  if (token !== '1234567') {
-    return { statusCode: 401, message: 'Unauthorized' };
-  } else if (isValid !== true) {
+  if (isValid !== true) {
     return { statusCode: isValid.statusCode, message: isValid.message };
   }
+  if (!lead.self) {
+    lead = {...lead, self: 'https://cdn-icons-png.flaticon.com/512/74/74472.png'};
+  }
+  lead = {...lead, hours: new Date().toLocaleTimeString(), 
+    message: 'Hey! I want to place my package'};
+  console.log(lead);
   return leadsModel.createLead(lead);
 }
