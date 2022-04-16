@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { getEmployees, createEmployee } = require('./controllers/employees');
-const { getQuotes, createQuote } = require('./controllers/quotes');
-const { getLeads, createLead } = require('./controllers/leads');
+const { getEmployees, createEmployee, deleteEmployee, findEmployee } = require('./controllers/employees');
+const { getQuotes, createQuote, findQuote, deleteQuote } = require('./controllers/quotes');
+const { getLeads, createLead, findLead, deleteLead } = require('./controllers/leads');
 const validToken = require('./middleware/validToken');
 const app = express();
 
@@ -15,13 +15,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/leads', validToken, getLeads)
-  .post('/leads', validToken, createLead);
+  .post('/leads', validToken, createLead)
+  .get('/leads/:id', validToken, findLead)
+  .delete('/leads/:id', validToken, deleteLead);
 
 app.get('/employees', validToken, getEmployees)
-  .post('/employees', validToken, createEmployee);
+  .post('/employees', validToken, createEmployee)
+  .get('/employees/:id', validToken, findEmployee)
+  .delete('/employees/:id', validToken, deleteEmployee);
 
 app.get('/quotes', validToken, getQuotes)
-  .post('/quotes', validToken, createQuote);
+  .post('/quotes', validToken, createQuote)
+  .get('/quotes/:id', validToken, findQuote)
+  .delete('/quotes/:id', validToken, deleteQuote);
 
 app.listen(3001, () => {
   console.log('Estamos online');

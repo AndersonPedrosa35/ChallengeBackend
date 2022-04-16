@@ -13,7 +13,25 @@ async function createLead(req, res) {
   return res.status(201).json(leads);
 }
 
+async function findLead(req, res) {
+  const leads = await leadsService.findLead(req.params.id);
+  if (leads.statusCode) {
+    return res.status(leads.statusCode).json(leads.message);
+  }
+  return res.status(200).json(leads);
+}
+
+async function deleteLead(req, res) {
+  const leads = await leadsService.deleteLead(req.params.id);
+  if (leads.statusCode) {
+    return res.status(leads.statusCode).json(leads.message);
+  }
+  return res.status(200).json(leads);
+}
+
 module.exports = {
   getLeads,
-  createLead
+  createLead,
+  findLead,
+  deleteLead
 }
