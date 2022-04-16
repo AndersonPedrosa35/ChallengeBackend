@@ -4,7 +4,7 @@ const cors = require('cors');
 const { getEmployees, createEmployee } = require('./controllers/employees');
 const { getQuotes, createQuote } = require('./controllers/quotes');
 const { getLeads, createLead } = require('./controllers/leads');
-const { validToken } = require('./middleware/validToken');
+const validToken = require('./middleware/validToken');
 const app = express();
 
 app.use(bodyParser.json());

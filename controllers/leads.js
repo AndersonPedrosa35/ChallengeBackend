@@ -1,14 +1,19 @@
-const leadsService = require('../services/leads.service');
+const leadsService = require('../services/leads.js');
 
-export function getLeads(res, req) {
-  const leads = leadsService.getLeads();
+async function getLeads(req, res) {
+  const leads = await leadsService.getLeads();
   return res.status(200).json(leads);
 }
 
-export function createLead(req, res) {
-  const leads = leadsService.createLead(req.body);
-  if (leads.message) {
+async function createLead(req, res) {
+  const leads = await leadsService.createLead(req.body);
+  if (leads.statusCode) {
     return res.status(leads.statusCode).json(leads.message);
   }
   return res.status(201).json(leads);
+}
+
+module.exports = {
+  getLeads,
+  createLead
 }

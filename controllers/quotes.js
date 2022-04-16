@@ -1,14 +1,19 @@
-const quotesService = require('../services/quotes.service');
+const quotesService = require('../services/quotes');
 
-export function getQuotes(res, req) {
-  const quotes = quotesService.getQuotes();
+async function getQuotes(req, res) {
+  const quotes = await quotesService.getQuotes();
   return res.status(200).json(quotes);
 }
 
-export function createQuote(req, res) {
-  const quotes = quotesService.createQuote(req.body);
-  if (quotes.message) {
+async function createQuote(req, res) {
+  const quotes = await quotesService.createQuote(req.body);
+  if (quotes.statusCode) {
     return res.status(quotes.statusCode).json(quotes.message);
   }
-  return res.status(201).json(quotes);
+  return res.status(201).json(quotes.ops);
+}
+
+module.exports = {
+  getQuotes,
+  createQuote
 }

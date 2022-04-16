@@ -1,4 +1,4 @@
-const quotesModel = require('../models/quotes.js');
+const quotesModel = require('../models/quotes');
 
 const transportationList = [ 'bus', 'train', 'airplane', 'bicycle' ];
 
@@ -24,7 +24,7 @@ const validateDateandPeople = ({ name, from, destination,
   if (departDate < Date.now()) {
     return { statusCode: 400, message: 'Invalid depart date' };
   }
-  else if (returnDate > departDate) {
+  else if (Date.parse(returnDate) > Date.parse(departDate)) {
     return { statusCode: 400, message: 'Invalid return date' };
   }
   else if (people < 1 || people > 4) {
@@ -36,16 +36,24 @@ const validateDateandPeople = ({ name, from, destination,
   return true;
 }
 
-export function getQuotes() {
-  return quotesModel.getQuotes();
+async function getQuotes() {
+  const quotes = await quotesModel.getQuotes();
+  if (quotes.length === 0) {
+    return [];
+  }
+  return quotes;
 }
 
-export function createQuote(quote) {
+async function createQuote(quote) {
   const isValid = validateDateandPeople(quote);
   if (isValid !== true) {
     return { statusCode: 400, message: isValid.message };
   }
   const newQuote = {...quote, price: '2000,00'};
-  console.log(newQuote);
   return quotesModel.createQuote(newQuote);
+}
+
+module.exports = {
+  getQuotes,
+  createQuote
 }
