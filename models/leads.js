@@ -1,4 +1,5 @@
 const connect = require('./connection.js');
+const { ObjectId } = require('mongodb');
 
 async function getLeads() {
   return connect().then((db) =>
@@ -12,10 +13,17 @@ async function createLead(lead) {
 
 async function findLead(id) {
   return connect().then((db) =>
-    db.collection('leads').findOne({ _id: id }));
+    db.collection('leads').findOne({ _id: ObjectId(id) }));
+}
+
+async function deleteLead(id) {
+  return connect().then((db) =>
+    db.collection('leads').deleteOne({ _id: ObjectId(id) }));
 }
 
 module.exports = {
   getLeads,
-  createLead
+  createLead,
+  findLead,
+  deleteLead
 }

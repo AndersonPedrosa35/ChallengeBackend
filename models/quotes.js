@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const { ObjectId } = require('mongodb');
 
 async function getQuotes() {
   return connection().then((db) =>
@@ -11,7 +12,19 @@ async function createQuote(quote) {
   return newQuote;
 }
 
+async function findQuote(id) {
+  return connect().then((db) =>
+    db.collection('quotes').findOne({ _id: ObjectId(id) }));
+}
+
+async function deleteQuote(id) {
+  return connect().then((db) =>
+    db.collection('quotes').deleteOne({ _id: ObjectId(id) }));
+}
+
 module.exports = {
   getQuotes,
-  createQuote
+  createQuote,
+  findQuote,
+  deleteQuote
 }
