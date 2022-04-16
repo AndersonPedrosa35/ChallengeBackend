@@ -41,7 +41,31 @@ async function createEmployee(employee) {
   return employeesModel.createEmployee(employee);
 }
 
+async function findEmployee(id){
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const employee = await employeesModel.findEmployee(id);
+  if (employee === null) {
+    return { statusCode: 404, message: 'Employee not found' };
+  }
+  return employee;
+}
+
+async function deleteEmployee(id){
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const findEmployee = await employeesModel.findEmployee(id);
+  if (findEmployee === null) {
+    return { statusCode: 404, message: 'Employee not found' };
+  }
+  return employeesModel.deleteEmployee(id);
+}
+
 module.exports = {
   getEmployees,
-  createEmployee
+  createEmployee,
+  findEmployee,
+  deleteEmployee
 }

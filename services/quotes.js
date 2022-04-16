@@ -53,7 +53,31 @@ async function createQuote(quote) {
   return quotesModel.createQuote(newQuote);
 }
 
+async function findQuote(id) {
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const quote = await quotesModel.findQuote(id);
+  if (quote === null) {
+    return { statusCode: 404, message: 'Quote not found' };
+  }
+  return quote;
+}
+
+async function deleteQuote(id) {
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const findQuote = await quotesModel.findQuote(id);
+  if (findQuote === null) {
+    return { statusCode: 404, message: 'Quote not found' };
+  }
+  return quotesModel.deleteQuote(id);
+}
+
 module.exports = {
   getQuotes,
-  createQuote
+  createQuote,
+  findQuote,
+  deleteQuote
 }

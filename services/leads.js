@@ -1,4 +1,5 @@
 const leadsModel = require('../models/leads.js');
+const { objectId } = require('mongodb');
 
 const validateBody = ({ name, email, phone }) => {
   const numberPhone = parseFloat(phone);
@@ -35,7 +36,31 @@ async function createLead(lead) {
   return leadsModel.createLead(lead);
 }
 
+async function findLead(id) {
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const lead = await leadsModel.findLead(id);
+  if (lead === null) {
+    return { statusCode: 404, message: 'Lead not found' };
+  }
+  return lead;
+}
+
+async function deleteLead(id) {
+  if (id.length !== 24) {
+    return { statusCode: 400, message: 'invalid Id' };
+  }
+  const findLead = await leadsModel.findLead(id);
+  if (findLead === null) {
+    return { statusCode: 404, message: 'Lead not found' };
+  }
+  return leadsModel.deleteLead(id);
+}
+
 module.exports = {
   getLeads,
-  createLead
+  createLead,
+  findLead,
+  deleteLead
 }
