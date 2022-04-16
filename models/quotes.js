@@ -1,11 +1,17 @@
-const connect = require('./connection.js');
+const connection = require('./connection');
 
-export function getQuotes() {
-  return connect().then((db) =>
+async function getQuotes() {
+  return connection().then((db) =>
     db.collection('quotes').find().toArray());
 }
 
-export function createQuote(quote) {
-  return connect().then((db) =>
-    db.collection('quotes').insertOne(quote));
+async function createQuote(quote) {
+  const data = await connection().then((db) => db.collection('quotes'));
+  const newQuote = await data.insertOne(quote);
+  return newQuote;
+}
+
+module.exports = {
+  getQuotes,
+  createQuote
 }

@@ -1,11 +1,16 @@
 const connect = require('./connection.js');
 
-export function getEmployees() {
+async function getEmployees() {
   return connect().then((db) =>
     db.collection('employees').find().toArray());
 }
 
-export function createEmployee(employee) {
+async function createEmployee(employee) {
   return connect().then((db) =>
     db.collection('employees').insertOne(employee));
+}
+
+module.exports = {
+  getEmployees,
+  createEmployee
 }

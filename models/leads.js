@@ -1,11 +1,21 @@
 const connect = require('./connection.js');
 
-export function getLeads() {
+async function getLeads() {
   return connect().then((db) =>
     db.collection('leads').find().toArray());
 }
 
-export function createLead(lead) {
+async function createLead(lead) {
   return connect().then((db) =>
     db.collection('leads').insertOne(lead));
+}
+
+async function findLead(id) {
+  return connect().then((db) =>
+    db.collection('leads').findOne({ _id: id }));
+}
+
+module.exports = {
+  getLeads,
+  createLead
 }
