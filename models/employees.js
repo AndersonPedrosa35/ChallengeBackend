@@ -1,23 +1,23 @@
-const connect = require('./connection.js');
+const connection = require('./connection.js');
 const { ObjectId } = require('mongodb');
 
 async function getEmployees() {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('employees').find().toArray());
 }
 
 async function createEmployee(employee) {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('employees').insertOne(employee));
 }
 
 async function findEmployee(id) {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('employees').findOne({ _id: ObjectId(id) }));
 }
 
 async function deleteEmployee(id) {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('employees').deleteOne({ _id: ObjectId(id) }));
 }
 

@@ -13,12 +13,12 @@ async function createQuote(quote) {
 }
 
 async function findQuote(id) {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('quotes').findOne({ _id: ObjectId(id) }));
 }
 
 async function deleteQuote(id) {
-  return connect().then((db) =>
+  return connection().then((db) =>
     db.collection('quotes').deleteOne({ _id: ObjectId(id) }));
 }
 
