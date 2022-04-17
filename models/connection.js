@@ -1,8 +1,7 @@
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-const MONGO_DB_URL = "mongodb://localhost:27017";
-const DB_NAME = 'WetBat';
+const { MONGO_DB_URL, DB_NAME } = process.env;
 
 const OPTIONS = {
   useNewUrlParser: true,

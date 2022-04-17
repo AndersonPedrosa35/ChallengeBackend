@@ -24,7 +24,7 @@ const validateDateandPeople = ({ name, from, destination,
   if (departDate < Date.now()) {
     return { statusCode: 400, message: 'Invalid depart date' };
   }
-  else if (Date.parse(returnDate) > Date.parse(departDate)) {
+  else if (Date.parse(returnDate) < Date.parse(departDate)) {
     return { statusCode: 400, message: 'Invalid return date' };
   }
   else if (people < 1 || people > 4) {
