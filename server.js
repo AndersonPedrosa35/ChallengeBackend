@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -29,6 +30,7 @@ app.get('/quotes', validToken, getQuotes)
   .get('/quotes/:id', validToken, findQuote)
   .delete('/quotes/:id', validToken, deleteQuote);
 
-app.listen(3001, () => {
-  console.log('Estamos online');
+const { PORT } = process.env;
+app.listen(PORT, () => {
+  console.log(`Estamos online na porta ${PORT}`);
 });
